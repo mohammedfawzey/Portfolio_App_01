@@ -1,0 +1,1283 @@
+<template>
+  <v-app>
+    <v-main class="pb-12 pt-0">
+      <v-container>
+        <v-dialog v-model="D_services" max-width="600">
+          <v-card class="pb-7 px-1">
+            <div class="text-right pa-3">
+              <v-btn @click="D_services = false" fab x-small text>
+                <v-icon size="20">mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <div class="card_body px-2">
+              <div class="upper_side text-center">
+                <h1 class="mb-3 text-h5 font-weight-bold">
+                  {{ currentOfferItem.sTitle }}
+                </h1>
+                <p class="mb-2">{{ currentOfferItem.description }}</p>
+              </div>
+              <v-list dense max-width="400px">
+                <v-list-item
+                  v-for="(item, i) in currentOfferItem.details"
+                  :key="i"
+                >
+                  <v-list-item-icon class="mr-0">
+                    <v-icon size="small" color="success">mdi-check</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </div>
+          </v-card>
+        </v-dialog>
+        <section id="Home" class="pb-12 pt-5">
+          <!-- START::__LOGO__NAME___ -->
+          <!-- START::__CONTENT___ -->
+          <v-row
+            class="text-center mt-0 flex-column mt-12"
+            align="center"
+            justify="center"
+          >
+            <div class="row_content" id="image">
+              <v-avatar
+                class="testing mb-3"
+                :size="avatarSize + C_avatarBorderSize('first')"
+                color="indigo"
+                data-aos="fade-down"
+                data-aos-duration="2000"
+              >
+                <v-avatar
+                  :size="avatarSize + C_avatarBorderSize('second')"
+                  :color="darkMode ? '#121212' : 'white'"
+                >
+                  <v-avatar :size="avatarSize">
+                    <!-- height="150" -->
+                    <!-- contain -->
+                    <v-img
+                      position="top"
+                      contain
+                      src="../../assets/portfolio/logo-09-bg.png"
+                    >
+                      <template #placeholder>
+                        <v-card width="100%" height="100%">
+                          <v-skeleton-loader type="image" v-bind="attrs" />
+                        </v-card>
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                </v-avatar>
+              </v-avatar>
+              <div class="mb-5">
+                <p
+                  class="mb-1 special_font"
+                  data-aos="fade-down"
+                  data-aos-duration="2200"
+                >
+                  Hello, I'm
+                </p>
+                <h1
+                  data-aos="fade-down"
+                  data-aos-duration="2400"
+                  class="
+                    text-sm-h4 text-h5 text--black
+                    mb-2
+                    font-weight-bold
+                    special_font
+                  "
+                >
+                  Mohammed Fawzey
+                </h1>
+                <p
+                  class="grey--text d-flex align-center justify-center"
+                  data-aos="fade-down"
+                  data-aos-duration="2600"
+                >
+                  <span
+                    :class="[
+                      $vuetify.theme.dark ? 'white--text' : 'black--text',
+                    ]"
+                    class="font-weight-black"
+                    >FrontEnd</span
+                  >
+                  <span class="ml-1">|</span>
+                  <v-chip label small outlined class="mx-1">
+                    <span class="text-caption special_font font-weight-black">
+                      NuxtJS
+                    </span>
+                  </v-chip>
+                  <v-chip label small outlined class="mx-1">
+                    <span class="text-caption special_font font-weight-black">
+                      VueJS
+                    </span></v-chip
+                  >
+                  <span> Developer </span>
+                </p>
+              </div>
+              <div
+                class="btn_group"
+                data-aos="fade-down"
+                data-aos-duration="2800"
+              >
+                <v-btn
+                  v-if="$vuetify.breakpoint.mdAndUp"
+                  x-large
+                  @click="previewTheCV"
+                  color="indigo"
+                  min-width="197"
+                  outlined
+                  class="mx-2 black--text download"
+                >
+                  <span class="text-normal">Download CV</span>
+                  <v-icon right size="20">mdi-download</v-icon>
+                </v-btn>
+                <v-btn
+                  x-large
+                  v-else
+                  @click="previewTheCV"
+                  color="indigo"
+                  min-width="197"
+                  outlined
+                  class="mx-2 black--text download"
+                >
+                  <span class="text-normal">Download CV</span>
+                  <v-icon right size="20">mdi-download</v-icon>
+                </v-btn>
+                <!-- </v-form> -->
+                <v-btn
+                  x-large
+                  color="indigo"
+                  class="about_me"
+                  @click="scrollToSection('About')"
+                >
+                  <span class="text-normal white--text">About me</span>
+                </v-btn>
+              </div>
+            </div>
+          </v-row>
+
+          <v-row style="overflow: hidden">
+            <v-col class="d-flex justify-center justify-sm-start">
+              <div
+                class="socials"
+                data-aos="fade-up-right"
+                data-aos-duration="3000"
+              >
+                <div
+                  class="
+                    btn_group
+                    d-flex
+                    flex-column
+                    align-start
+                    justify-center
+                  "
+                >
+                  <span
+                    v-for="(social, i) in items.socials.slice(1, 4)"
+                    :key="i"
+                  >
+                    <v-hover v-slot="{ hover }">
+                      <v-btn
+                        icon
+                        :color="hover ? social.color : ''"
+                        target="_blank"
+                        :href="social.link"
+                      >
+                        <v-icon>{{ social.icon }}</v-icon>
+                      </v-btn>
+                    </v-hover>
+                  </span>
+                </div>
+                <div class="shape" :class="{ white: darkMode }"></div>
+              </div>
+            </v-col>
+            <v-col class="text-right d-flex justify-center justify-sm-end">
+              <div class="slide" style="width: 50px">
+                <div
+                  data-aos="fade-up-left"
+                  data-aos-duration="3000"
+                  class="scroll d-flex flex-column align-center"
+                  @click="scrollToSection('About')"
+                >
+                  <span class="mb-12 mt-2">
+                    <v-icon>mdi-mouse</v-icon>
+                  </span>
+                  <div
+                    class="home_scroll"
+                    style="transform: rotate(270deg); width: max-content"
+                  >
+                    scroll down
+                  </div>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </section>
+        <!-- about -->
+        <section id="About" class="py-12">
+          <div class="section_content">
+            <div class="main_heading text-center mb-5 mb-md-12">
+              <p class="mb-1">My Intro</p>
+              <h1 class="text-h4 font-weight-bold second_color special_font">
+                About me
+              </h1>
+            </div>
+            <v-row justify-md="space-between" class="" justify="space-between">
+              <v-col cols="12" md="4" class="d-flex justify-center">
+                <v-img
+                  width="275"
+                  :height="$vuetify.breakpoint.smAndDown ? 280 : 350"
+                  contain
+                  src="../../assets/portfolio/logo-03.png"
+                >
+                  <!-- src="../../assets/portfolio/logo-02.jpg" -->
+                  <!-- src="http://fakedfskladf.com" -->
+                  <template #placeholder>
+                    <v-card width="275" height="350" class="mx-auto">
+                      <v-skeleton-loader type="image, image" v-bind="attrs" />
+                    </v-card>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" md="7">
+                <v-row class="text-center" justify="center">
+                  <v-col
+                    v-for="(item, i) in childs"
+                    :key="i"
+                    sm="4"
+                    cols="6"
+                    class="px-md-2 thecol"
+                  >
+                    <v-card
+                      class="thecard transition-fast-out-slow-in"
+                      max-width="160"
+                      :class="[
+                        i == 0
+                          ? ' ml-auto ml-lg-0'
+                          : i == 1
+                          ? 'mx-sm-auto ml-lg-0'
+                          : 'mr-sm-auto mx-auto ml-lg-0',
+                      ]"
+                    >
+                      <v-card-text>
+                        <v-icon>{{ item.icon }}</v-icon>
+                      </v-card-text>
+                      <v-card-text class="py-0 px-1 font-weight-bold">{{
+                        item.title
+                      }}</v-card-text>
+                      <v-card-subtitle class="px-1">{{
+                        item.description
+                      }}</v-card-subtitle>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                <div class="about_description text-center text-md-left">
+                  <p
+                    class="grey--text mt-10 px-5 px-md-1"
+                    style="line-height: 25px; letter-spacing: 1.3px"
+                  >
+                    <!--
+                    Frontend developer,
+                       I provide
+                    <strong> clean code</strong> with responsive design, I have
+                    years of experience and many clients are happy with the
+                    projects carried out. -->
+                    I'm Front End Developer , experienced converting Ul design
+                    to large scale - websites based on Web standard
+                    technologies. talents, and areas of expertise
+                  </p>
+                  <div class="about_action text-center text-md-left">
+                    <v-btn
+                      color="indigo darken-2"
+                      @click="scrollToSection('Contact')"
+                      large
+                      dark
+                    >
+                      <span class="text-capitalize">contact me</span>
+                      <v-icon right size="20">mdi-phone-outline</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </section>
+        <!-- experience -->
+        <section id="Experience" class="py-12">
+          <div class="section_content">
+            <div class="main_heading text-center mb-5 mb-md-12">
+              <p class="mb-1">My abilites</p>
+              <h1 class="text-h4 font-weight-bold second_color special_font">
+                My Experience
+              </h1>
+            </div>
+            <v-row>
+              <v-col cols="12" sm="6" md="4">
+                <v-card class="pa-7 mx-auto rounded-lg py-12" max-width="370px">
+                  <h1 class="second_color text-h6 text-center mb-9">
+                    Front End Developer
+                  </h1>
+                  <v-card class="mx-auto" flat>
+                    <v-row>
+                      <v-col
+                        v-for="(item, i) in languages"
+                        :key="i"
+                        cols="6"
+                        class="text-left px-0"
+                      >
+                        <div class="col_body">
+                          <span>
+                            <v-icon color="#a8a1ea" left
+                              >mdi-check-decagram</v-icon
+                            >
+                          </span>
+                          <span class="">{{ item.title }}</span>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-card class="pa-7 mx-auto rounded-lg py-12" max-width="370px">
+                  <h1 class="second_color text-h6 text-center mb-9">
+                    Frameworks
+                  </h1>
+                  <v-card class="mx-auto" flat>
+                    <v-row>
+                      <v-col
+                        v-for="(item, i) in frameworks"
+                        :key="i"
+                        cols="6"
+                        class="text-left px-0"
+                      >
+                        <span>
+                          <v-icon color="#a8a1ea" left
+                            >mdi-check-decagram</v-icon
+                          >
+                        </span>
+                        <span class="">{{ item.title }}</span>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-card class="pa-7 mx-auto rounded-lg py-12" max-width="370px">
+                  <h1 class="second_color text-h6 text-center mb-9">Plugins</h1>
+                  <v-card class="mx-auto" flat>
+                    <v-row>
+                      <v-col
+                        v-for="(item, i) in frameworks[1].plugins"
+                        :key="i"
+                        cols="6"
+                        class="text-left px-0"
+                      >
+                        <span>
+                          <v-icon color="#a8a1ea" left
+                            >mdi-check-decagram</v-icon
+                          >
+                        </span>
+                        <span class="">{{ item }}</span>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+        </section>
+        <!-- services -->
+
+        <section id="Services" class="py-12">
+          <div class="section_content">
+            <div class="main_heading text-center mb-12 mb-md-12">
+              <p>My Services</p>
+              <h1 class="special_font text-h4 font-weight-bold second_color">
+                What I Offer
+              </h1>
+            </div>
+            <v-row justify="center">
+              <v-col
+                v-for="(item, i) in offers"
+                :key="i"
+                cols="12"
+                sm="4"
+                md="4"
+              >
+                <v-card
+                  class="
+                    pt-12
+                    pb-9
+                    mx-auto
+                    d-flex
+                    flex-column
+                    justify-space-around
+                  "
+                  style="border-radius: 17px"
+                  max-width="230"
+                >
+                  <v-card-text
+                    class="text-h5 pl-6 font-weight-bold"
+                    v-html="item.title"
+                  ></v-card-text>
+                  <v-card-text class="pb-0">
+                    <v-hover v-slot="{ hover }">
+                      <v-btn
+                        outlined
+                        color="indigo"
+                        dense
+                        @click="
+                          currentOfferItem = item;
+                          D_services = true;
+                        "
+                      >
+                        <span class="text-capitalize mr-2">see more</span>
+                        <v-icon :right="hover" :left="!hover"
+                          >mdi-arrow-right-thin</v-icon
+                        >
+                      </v-btn>
+                    </v-hover>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+        </section>
+        <!-- works -->
+      </v-container>
+
+      <v-container fluid class="pa-0">
+        <section id="Works" class="py-12">
+          <div class="section_content">
+            <div class="main_heading text-center mb-8 mb-md-8">
+              <p class="mb-1">My Portfolio</p>
+              <h1
+                class="special_font text-h4 mb-2 font-weight-bold second_color"
+              >
+                Racent Works
+              </h1>
+            </div>
+            <div class="btn_group_works mb-12 text-center">
+              <span v-for="(item, i) in buttons" :key="i">
+                <v-btn
+                  rounded
+                  :data-filter="`${i !== 0 ? `.${item.title}` : 'all'}`"
+                  class="mx-1 my-1 my-sm-0"
+                  @click="activeWork = item.id"
+                  :color="
+                    activeWork == item.id && !darkMode
+                      ? '#090e1c'
+                      : activeWork == item.id && darkMode
+                      ? 'indigo'
+                      : ''
+                  "
+                  :small="$vuetify.breakpoint.xsOnly"
+                  :class="[activeWork == item.id ? 'white--text' : '']"
+                >
+                  <span class="text-capitalize">{{ item.title }}</span>
+                </v-btn>
+              </span>
+            </div>
+            <!-- START::___ -->
+            <v-row class="product_parent ma-0" style="width: 100%" dense>
+              <template v-for="(item, i) in projects">
+                <v-col
+                  :key="i"
+                  class="product_item pa-0"
+                  :class="item.type"
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  v-if="item.show"
+                >
+                  <!-- lg="4" -->
+                  <v-card link target="blank" :href="item.link" flat class="my-6 my-sm-0 mx-auto rounded-0" max-width="600">
+                    <v-hover v-slot="{ hover }">
+                      <v-img
+                        :aspect-ratio="aspectRatio"
+                        position="center"
+                        :src="
+                          require(`@/assets/projects/small/${item.src}.png`)
+                        "
+                        contain
+                      >
+                        <!-- src="http://fdaslkfjasd.com" -->
+                        <template #placeholder>
+                          <!-- <v-card> -->
+                          <v-skeleton-loader
+                            type="image, image"
+                            v-bind="attrs"
+                          />
+                        </template>
+                        <v-card
+                          height="100%"
+                          width="100%"
+                          class="text-center mx-auto transparent"
+                          :class="{
+                            'card-back': hover && !$vuetify.breakpoint.xsOnly,
+                          }"
+                        >
+                          <v-slide-x-transition>
+                            <div
+                              v-if="hover && !$vuetify.breakpoint.xsOnly"
+                              class="
+                                card-content
+                                d-flex
+                                align-center
+                                flex-column
+                                justify-center
+                              "
+                              style="width: 100%; height: 100%"
+                            >
+                              <v-card-text class="text-capitalize pa-0">
+                                <v-chip color="primary" small>
+                                  {{ item.title }}
+                                </v-chip>
+                              </v-card-text>
+                              <v-card-actions class="my-1">
+                                <v-btn
+                                  x-small
+                                  fab
+                                  color="indigo"
+                                  target="_blank"
+                                  :href="item.link"
+                                >
+                                  <v-icon color="white"
+                                    >mdi-open-in-new</v-icon
+                                  >
+                                </v-btn>
+                              </v-card-actions>
+                              <v-card-text class="pa-0">
+                                <v-chip
+                                  v-for="(tag, ind) in item.tags"
+                                  :key="ind"
+                                  class="mx-1"
+                                  :color="tag.color"
+                                  small
+                                  label
+                                >
+                                  <div
+                                    class="text-caption"
+                                    :class="{
+                                      'white--text': tag.color == 'indigo',
+                                    }"
+                                  >
+                                    {{ tag.title }}
+                                  </div></v-chip
+                                >
+                                <v-chip v-if="i < 2" color="error" small label>
+                                  <div class="text-caption">latest</div></v-chip
+                                >
+                              </v-card-text>
+                            </div>
+                          </v-slide-x-transition>
+                        </v-card>
+                      </v-img>
+                    </v-hover>
+                  </v-card>
+                </v-col>
+              </template>
+            </v-row>
+          </div>
+          <!-- END_____ -->
+        </section>
+      </v-container>
+      <!-- contact -->
+      <v-container>
+        <section id="Contact" class="py-12">
+          <div class="main_heading text-center mb-12 mb-md-12">
+            <p class="mb-1">Get in touch</p>
+            <h1 class="text-h4 font-weight-bold second_color special_font">
+              Contact Me
+            </h1>
+          </div>
+          <v-row>
+            <v-col cols="12" md="6" class="text-center">
+              <h1 class="text-h5 font-weight-bold mb-3">Talk to me</h1>
+              <v-row dir="column" class="flex-column">
+                <v-col
+                  v-for="(item, i) in contact"
+                  :key="i"
+                  class="text-center"
+                >
+                  <v-hover v-slot="{ hover }">
+                    <v-card
+                      class="mx-auto"
+                      max-width="350"
+                      style="border-radius: 16px"
+                    >
+                      <v-card-text class="pb-1"
+                        ><v-icon large>{{ item.icon }}</v-icon></v-card-text
+                      >
+                      <v-card-text class="py-0 font-weight-bold">{{
+                        item.title
+                      }}</v-card-text>
+                      <v-card-subtitle class="pt-0">{{
+                        item.content
+                      }}</v-card-subtitle>
+                      <v-card-text>
+                        <v-btn
+                          color="grey"
+                          dense
+                          text
+                          small
+                          target="_blank"
+                          :href="item.link"
+                        >
+                          <span class="text-capitalize mr-2">text me</span>
+                          <v-icon :right="hover" :left="!hover"
+                            >mdi-arrow-right-thin</v-icon
+                          >
+                        </v-btn>
+                      </v-card-text>
+                    </v-card>
+                  </v-hover>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="6">
+              <h2 class="text-h6 mb-3 font-weight-bold text-center">
+                Write me your project
+              </h2>
+              <v-card
+                class="pa-4 mx-auto"
+                style="border-radius: 10px"
+                max-width="450"
+              >
+                <v-form @submit.prevent="submitForm" ref="form" id="nativeForm">
+                  <v-card-text class="pb-2">
+                    <v-text-field
+                      label="Full Name"
+                      outlined
+                      v-model="name"
+                      type="text"
+                      :rules="[rules.required]"
+                    ></v-text-field>
+                    <v-text-field
+                      type="email"
+                      label="Email"
+                      outlined
+                      v-model="email"
+                      :rules="[rules.required, rules.R_email]"
+                    ></v-text-field>
+                    <v-textarea
+                      label="Message"
+                      type="text"
+                      outlined
+                      v-model="project"
+                      :rules="[rules.required]"
+                      placeholder="Write your project"
+                    ></v-textarea>
+                  </v-card-text>
+                  <v-card-text class="pt-0">
+                    <v-btn
+                      v-if="!isSubmitBtnClicked"
+                      x-large
+                      type="submit"
+                      color="indigo"
+                      class="white--text"
+                      block
+                    >
+                      <span class="text-capitalize">send message</span>
+                      <v-icon right>mdi-send</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-else
+                      x-large
+                      block
+                      disabled
+                      class="disabled_cursor"
+                    >
+                      <span class="text-capitalize">Processing..</span>
+                      <v-icon right size="15">mdi-timer-sand-complete</v-icon>
+                    </v-btn>
+                  </v-card-text>
+                </v-form>
+              </v-card>
+            </v-col>
+          </v-row>
+        </section>
+        <!-- nav-links -->
+        <div class="nav_links">
+          <span v-for="(item, i) in homeLinks" :key="i">
+            <!-- class="mx-2" -->
+            <v-btn
+              class="mx-2 transition-fast-in-fast-out"
+              fab
+              small
+              :color="
+                activeSection == item.id && !darkMode
+                  ? '#090e1c'
+                  : activeSection == item.id && darkMode
+                  ? 'indigo'
+                  : ''
+              "
+              :class="[activeSection == item.id ? 'white--text' : '']"
+              @click="scrollToSection(item.section)"
+            >
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-btn>
+          </span>
+        </div>
+        <div
+          class="upper_slide py-2"
+          v-scroll="checkScroll"
+          :class="[
+            darkMode ? 'bg-dark' : 'bg-white',
+            isScrolled ? 'v-box-shadow' : '',
+          ]"
+        >
+          <v-container class="py-0">
+            <v-row align="center" justify="space-between">
+              <v-col class="text-left align-center" cols="8">
+                <h1
+                  class="special_font second_color text-h6"
+                  style="cursor: pointer"
+                  @click="scrollToTop"
+                >
+                  Mohammed Fawzey
+                </h1>
+              </v-col>
+              <v-col class="d-flex justify-end align-center">
+                <v-btn icon small text @click="switchMode">
+                  <v-icon size="20" color="#a8a1ea">{{
+                    darkMode ? "mdi-white-balance-sunny" : "mdi-weather-night"
+                  }}</v-icon>
+                  <!-- <v-icon>mdi-basket-plus-outline</v-icon> -->
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
+      </v-container>
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+import data from "@/db/data.json";
+import projects from "@/db/projects.json";
+import mixitup from "mixitup";
+import swal from "sweetalert2";
+export default {
+  data: () => ({
+    cv_dialog: true,
+    attrs: {
+      class: "mb-6",
+      boilerplate: false,
+      eleveation: 2,
+    },
+    projects,
+    // aspectRatio: 2.186991869918699,
+    aspectRatio: 2.184143222506394,
+    isSubmitBtnClicked: false,
+    currentOfferItem: "",
+    D_services: false,
+    snack: false,
+    avatarSize: 135,
+    dialog: true,
+    items: data,
+    activeSection: 1,
+    name: "",
+    email: "",
+    pageLoaded: true,
+    loading: false,
+    barScroll: false,
+    darkMode: false,
+    project: "",
+    activeWork: 1,
+    isScrolled: false,
+    rules: {
+      required: (v) => !!v || "required",
+      R_length: (v) =>
+        (v.length > 3 && v.length < 30) || "more than 3 and less than 30",
+      R_areaLength: (v) =>
+        (v.length > 3 && v.length < 250) || "more than 3 and less than 250",
+      R_email: (v) =>
+        /\b\w{1,30}\b@\b\w{1,15}\b\.\b\w{1,10}\b/.test(v) || "invaid email",
+    },
+    homeLinks: [
+      {
+        icon: "mdi-home",
+        section: "Home",
+        id: 1,
+      },
+      {
+        icon: "mdi-account-outline",
+        section: "About",
+        id: 2,
+      },
+      {
+        icon: "mdi-book",
+        section: "Experience",
+        id: 3,
+      },
+      {
+        icon: "mdi-briefcase-variant-outline",
+        section: "Works",
+        id: 4,
+      },
+      {
+        icon: "mdi-message-text-outline",
+        section: "Contact",
+        id: 5,
+      },
+    ],
+    childs: [
+      {
+        icon: "mdi-lightbulb-variant-outline",
+        title: "Experience",
+        description: "fresh graduate",
+      },
+      {
+        icon: "mdi-briefcase-variant-outline",
+        title: "Completed",
+        description: "+7 Porjects",
+      },
+      {
+        icon: "mdi-basket-plus-outline",
+        title: "Skills",
+        description: "+10",
+      },
+    ],
+    languages: [
+      {
+        title: "HTML",
+        level: "Advanced",
+      },
+      {
+        title: "CSS",
+        level: "Advanced",
+      },
+      {
+        title: "Javascript",
+        level: "basic",
+      },
+      {
+        title: "Git",
+        level: "basic",
+      },
+    ],
+    frameworks: [
+      {
+        title: "Nuxtjs",
+        level: "Average",
+      },
+      {
+        title: "Vuejs",
+        level: "Advanced",
+        plugins: ["Vuetify", "Vuex", "mixitup"],
+      },
+      {
+        title: "SCSS",
+        level: "basic",
+      },
+      {
+        title: "Bootstrap",
+        level: "basic",
+      },
+      // {
+      //   title: "Jquery",
+      //   level: "basic",
+      // },
+    ],
+    offers: [
+      {
+        title: "Product<br>  Designer",
+        sTitle: "Product  Designer",
+        description: "Provding quality work to clients and companies",
+        details: ["Web page development", "create efficient web pages"],
+        id: 1,
+      },
+      {
+        title: "Clean <br> Code",
+        sTitle: "Clean  Code",
+        description:
+          "Write well designed, testable, efficient code by using best software development practices",
+        id: 2,
+      },
+      {
+        title: "Responsive<br> Design",
+        sTitle: "Responsive Design",
+        description: "creates dynamic changes to the appearance of a website,",
+        id: 3,
+        details: [
+          "Design for thumb",
+          "Make layouts adaptive",
+          "Consider landscape orientation",
+          "Keep typography responsive",
+          "Leverage conditional loading",
+        ],
+      },
+    ],
+    buttons: [
+      {
+        title: "all",
+        id: 1,
+      },
+      {
+        title: "ecommerce",
+        id: 2,
+      },
+      {
+        title: "movie",
+        id: 3,
+      },
+      {
+        title: "design",
+        id: 4,
+      },
+    ],
+    contact: [
+      {
+        icon: "mdi-email-outline",
+        title: "email",
+        content: "mohammedalsydy21@gmail.com",
+        link: "mailto:mohammedalsydy21@gmail.com",
+      },
+      {
+        icon: "mdi-whatsapp",
+        title: "whatsapp",
+        content: "01220314609",
+        link: "https://chatwith.io/s/62607e0505768",
+      },
+      {
+        icon: "mdi-facebook-messenger",
+        title: "facebook",
+        content: "mohammed.fawzy.3956",
+        link: "https://www.messenger.com/t/100009958894563/",
+      },
+    ],
+  }),
+  methods: {
+    watchDialog() {
+      console.log("dialog watched");
+    },
+    checkScroll() {
+      if (window.scrollY > 0) {
+        this.isScrolled = true;
+      } else {
+        this.isScrolled = false;
+      }
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+    scrollToSection(section) {
+      const SECTION = document.getElementById(section);
+      if (!SECTION) return;
+      const offset = section == "Home" ? 0 : SECTION.offsetTop;
+      scrollTo({
+        behavior: "smooth",
+        top: offset,
+      });
+    },
+    submitForm() {
+      if (this.$refs.form.validate()) {
+        this.isSubmitBtnClicked = true;
+        setTimeout(() => {
+          swal
+            .fire({
+              title: "Message Sent",
+              icon: "success",
+              showConfirmButton: true,
+              timer: 2800,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              timerProgressBar: true,
+            })
+            .then(() => {
+              this.isSubmitBtnClicked = false;
+              this.$refs.form.reset();
+              this.name = "";
+              this.email = "";
+              this.project = "";
+            });
+        }, 750);
+      }
+    },
+    checkBarScroll() {
+      if (window.scrollY == 0) {
+        this.barScroll = true;
+      } else {
+        this.barScroll = false;
+      }
+      window.onscroll = () => {
+        if (window.scrollY == 0) {
+          this.barScroll = true;
+        } else {
+          this.barScroll = false;
+        }
+      };
+    },
+    switchMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.darkMode = this.$vuetify.theme.dark;
+      localStorage.setItem("portfolioDarkMode", this.$vuetify.theme.dark);
+    },
+    checktheCurrentMode() {
+      this.darkMode = this.$vuetify.theme.dark;
+    },
+    setActiveSectionWhenScroll() {
+      this.homeLinks.forEach((el) => {
+        let SECTION = document.getElementById(`${el.section}`);
+        if (!SECTION) return;
+        if (window.scrollY >= SECTION.offsetTop) {
+          this.activeSection = el.id;
+        }
+      });
+      window.onscroll = () => {
+        this.homeLinks.forEach((el) => {
+          let SECTION = document.getElementById(`${el.section}`);
+          if (!SECTION) return;
+          if (window.scrollY >= SECTION.offsetTop) {
+            this.activeSection = el.id;
+          }
+        });
+      };
+    },
+    checkPageLoaded() {
+      document.onreadystatechange = () => {
+        if (document.readyState == "complete") {
+          setTimeout(() => {
+            this.pageLoaded = false;
+            this.dialog = false;
+          }, 1500);
+        }
+      };
+    },
+    getTheDarkMode() {
+      if (localStorage.getItem("portfolioDarkMode")) {
+        this.darkMode = JSON.parse(localStorage.getItem("portfolioDarkMode"));
+        this.$vuetify.theme.dark = JSON.parse(
+          localStorage.getItem("portfolioDarkMode")
+        );
+        // console.log(JSON.parse(localStorage.getItem("portfolioDarkMode")));
+      }
+    },
+    downloadCv(media) {
+      // eslint-disable-next-line no-unused-vars
+      var openCvInWindow = () => {};
+      var downloadCv = () => {
+        let url = "Mohammed Shabaan Fawzey_CV.pdf";
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = url;
+        link.click();
+      };
+      if (media == "large") {
+        // setTimeout(() => {
+        this.cv_dialog = true;
+        // }, 750);
+      }
+    },
+    downloadTheCV() {
+      let url = "Mohammed Shabaan Fawzey_CV.pdf";
+      var link = document.createElement("a");
+      if (!link) return;
+      link.href = url;
+      link.download = url;
+      link.click();
+    },
+    previewTheCV() {
+      this.cv_dialog = false;
+      const cv = "Mohammed Shabaan Fawzey_CV";
+      const windowFeatures = "toolbar=yes,scrollbars=yes,resizable=yes,popup";
+
+      window.open("Mohammed Shabaan Fawzey_CV.pdf", cv, windowFeatures);
+    },
+  },
+  mounted() {
+    document.title = "Mohammed Fawzey";
+    if (window.scrollY <= 200) {
+      this.checkPageLoaded();
+    }
+    this.getTheDarkMode();
+    this.checktheCurrentMode();
+    this.checkBarScroll();
+    this.setActiveSectionWhenScroll();
+    // eslint-disable-next-line no-unused-vars
+    let mixerOne = mixitup(".product_parent", {
+      selectors: {
+        target: ".product_item",
+      },
+      animation: {
+        duration: 250,
+        nudge: false,
+        reverseOut: false,
+        effects: "fade translateX(20%) translateZ(-100px) rotateY(90deg)",
+      },
+    });
+  },
+  computed: {
+    C_avatarBorderSize() {
+      // let ratio = 8.7
+      // avatarSize = 170
+      return (position) => {
+        let ratio = position == "first" ? 8.5 : 17;
+        return this.avatarSize / ratio;
+      };
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+$body-font-family: "Montserrat", sans-serif;
+.v-application {
+  font-family: $body-font-family !important;
+}
+#Home {
+  min-height: 100vh;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap");
+.special_font {
+  font-family: "Barlow", sans-serif !important;
+}
+/**
+font-family: 'Montserrat', sans-serif;
+font-family: 'Open Sans', sans-serif;
+*/
+// $main: #090e1c;
+$main: #fff;
+$second: #a8a1ea;
+$p-color: #a8a1ea;
+:root {
+  --main--color: $main;
+  --second--color: $second;
+}
+.main_color {
+  color: $main;
+}
+.second_color {
+  color: $second;
+}
+.main_back {
+  background: $main;
+}
+.second_back {
+  background: $second;
+}
+* {
+  // font-family: "Open Sans", sans-serif !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+.text-normal {
+  text-transform: none !important;
+}
+.font_color {
+  color: $p-color;
+}
+.nav_color {
+  // .nav_links-body {
+  color: #dbe3ec;
+  // }
+}
+.slide {
+  cursor: pointer;
+}
+.shape {
+  width: 2px;
+  height: 35px;
+  background: #00000087;
+  margin-left: 16px;
+}
+.nav_links {
+  position: fixed;
+  z-index: 200;
+  bottom: 25px;
+  padding: 10px 20px;
+  background-color: #a8a1ea61;
+  border-radius: 80px;
+  left: 50%;
+  // .nav_links-body {
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // }
+  backdrop-filter: blur(10px);
+  transform: translateX(-50%);
+}
+.upper_slide {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+
+  // box-shadow: -1px 1px 1px 1px #eaeaeabd;
+  backdrop-filter: blur(16px);
+  transition: box-shadow 0.6s !important;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  transition-property: box-shadow;
+}
+.bg-white {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+.bg-dark {
+  background-color: #121212d1 !important;
+}
+.v-box-shadow {
+  box-shadow: 0px 7px 10px 0px rgb(0 0 0 / 8%);
+}
+.darkmode {
+  background: #121212 !important;
+}
+.btn_group {
+  @media (min-width: 350px) and (max-width: 375px) {
+    display: flex;
+    // flex-direction: column;
+    // gap: 10px;
+    a.download {
+      width: 171px !important;
+      // background: red !important;
+      padding: 0 20px !important;
+    }
+    .about_me {
+      width: 125px !important;
+      padding: 0 20px !important;
+    }
+  }
+  @media (max-width: 349px) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+.thecol {
+  @media (max-width: 320px) {
+    // background: red !important;
+    .thecard {
+      margin: 0px auto !important;
+    }
+    min-width: 100% !important;
+  }
+}
+.product_parent {
+  // min-height: 600px;
+}
+.card-back {
+  background: linear-gradient(to top right, transparent, #5555557a);
+  background-color: transparent;
+  backdrop-filter: blur(1px);
+}
+.visible_load {
+  visibility: hidden !important;
+}
+.chip_group {
+  max-width: 130px;
+}
+.disabled_cursor {
+  cursor: not-allowed !important;
+  pointer-events: all;
+}
+</style>
