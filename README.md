@@ -53,7 +53,7 @@
 
 ## About The Project
 
- <img src="portfolio--light.png" alt="Logo" width="850" height="">
+ <img src="public/portfolio--light.png" alt="Logo" width="850" height="">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
